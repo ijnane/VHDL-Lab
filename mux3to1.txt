@@ -1,0 +1,55 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity mux3to1 is
+	port ( sw : in std_logic_vector(9 downto 0);
+			LEDG: out std_logic_vector(1 downto 0);
+			LEDR: out std_logic_vector(5 downto 0)
+			);
+	end mux3to1;
+	
+architecture mux3to1 of mux3to1 is
+component mux3to1a 
+	port ( u: in std_logic_vector(1 downto 0);
+			 v: in std_logic_vector(3 downto 2);
+			 w: in std_logic_vector(5 downto 4);
+			 s0: in std_logic;
+			 s1: in std_logic;
+			 m: out std_logic_vector(1 downto 0)
+			 );
+			 
+end component;
+
+begin
+	H1: mux3to1a port map
+	(u =>sw(1 downto 0), v=>sw(3 downto 2),w=>sw(5 downto 4), s0=>sw(8),s1=>sw(9),m=>LEDG);
+	 LEDR <= sw(5 downto 0);
+end mux3to1;
+
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity mux3to1a is 
+	port ( u: in std_logic_vector(1 downto 0);
+			 v: in std_logic_vector(1 downto 0);
+			 w: in std_logic_vector(1 downto 0);
+			 s0: in std_logic;
+			 s1: in std_logic;
+			 m: out std_logic_vector(1 downto 0)			 
+			 );
+end mux3to1a;
+
+architecture mux3to1a of mux3to1a is
+begin
+	process(u,v,w,s0,s1)
+	begin
+		if s1 =  '1' then
+			m <= w;
+		elsif (s1 = '0' and s0 = '0') then
+			m <= u; 
+		else 
+			m <= v;
+		end if;
+	end process;
+end mux3to1a;

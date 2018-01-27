@@ -1,0 +1,45 @@
+entity mux2to1 is
+	port(
+		sw: in std_logic_vector(8 downto 0);
+		LEDG: out std_logic_vector(3 downto 0);
+		LEDR: out std_logic_vector(7 downto 0)
+		
+	);
+	end mux2to1;
+	
+	architecture mux2to1 of mux2to1 is
+	component mux2to1a is
+		port(
+			x: in std_logic_vector(3 downto 0);
+			y: in std_logic_vector(7 downto 4);
+			s: in std_logic;
+			m: out std_logic_vector(3 downto 0)
+		);
+		
+	end component;
+	
+	begin
+	qm1: mux2to1a port map
+	(x =>sw(3 downto 0), y=>sw(7 downto 4), s=>sw(8),m=>LEDG);
+	 LEDR <= sw(7 downto 0);
+
+	end mux2to1;
+
+
+library ieee;
+use ieee.std_logic_1164.all;
+entity mux2to1a is 
+	port(
+		x: in std_logic_vector(3 downto 0);
+		y: in std_logic_vector(3 downto 0);
+		s: in std_logic;
+		m: out std_logic_vector(3 downto 0)
+	);
+end mux2to1a;
+
+architecture mux2to1a of mux2to1a is
+signal s4: std_logic_vector(3 downto 0);
+begin
+	s4<= s & s & s & s;
+	m <=(not s4 and x) or (s4 and y);
+end mux2to1a;

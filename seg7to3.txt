@@ -1,0 +1,47 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity hex7seg is
+	port( 
+		c: in std_logic_vector(1 downto 0);
+		a_to_g: out std_logic_vector(6 downto 0)
+		 );
+end hex7seg;
+
+architecture hex7seg of hex7seg is
+begin
+	process(c)
+	begin	
+		case c is
+			when "00" => a_to_g <= "1000010";
+			when "01" => a_to_g <= "0110000";
+			when "10" => a_to_g <= "1001111";
+			when "11" => a_to_g <= "1111111";
+		end case;
+	end process;
+end hex7seg;
+
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity hex7segb is
+	port( 
+		sw: in std_logic_vector(1 downto 0);
+		a_to_g: out std_logic_vector(6 downto 0);
+		an: out std_logic_vector(3 downto 3)
+		 );
+end hex7segb;
+
+architecture hex7segb of hex7segb is
+component hex7seg is 
+	port( c: in std_logic_vector(1 downto 0);
+		  a_to_g: out std_logic_vector(6 downto 0)
+		  );
+end component;
+
+begin
+an <= "1";
+h1: hex7seg port map
+	(c => sw, a_to_g => a_to_g);
+end hex7segb;
